@@ -1,0 +1,35 @@
+# Copy to ~/.config/keyglow/config.toml
+
+[device]
+vid = 0x19F5   # NuPhy Halo96 V2
+pid = 0x3302
+
+[colors]
+background = "#000000"   # keys with no bind while Super is held
+default = "#00b4ff"
+
+# Color by Hyprland dispatcher. Lua-config names (exec_cmd, focus, ...) and
+# classic names (exec, workspace, killactive, ...) both work.
+[colors.dispatcher]
+exec_cmd = "#00ff80"
+exec = "#00ff80"
+focus = "#3060ff"
+workspace = "#3060ff"
+move = "#a040ff"
+movetoworkspace = "#a040ff"
+close = "#ff2020"
+killactive = "#ff2020"
+float = "#ffb000"
+togglefloating = "#ffb000"
+pseudo = "#ffb000"
+
+# Override single combos (same spelling as `keyglow.py show` prints).
+[colors.keys]
+"SUPER+Q" = "#ffffff"
+
+# Binds to leave dark. Dispatchers by name, keys as glob patterns on the
+# combo name that `keyglow.py show` prints (e.g. "SUPER+KP_*", "SUPER+SHIFT+?").
+[filter]
+# Workspace binds: Lua-config names, then classic names.
+exclude_dispatchers = ["focus", "move", "workspace", "movetoworkspace", "movetoworkspacesilent"]
+exclude_keys = []

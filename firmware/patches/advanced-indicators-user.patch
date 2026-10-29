@@ -1,0 +1,13 @@
+diff --git a/keyboards/nuphy/halo96_v2/ansi/ansi.c b/keyboards/nuphy/halo96_v2/ansi/ansi.c
+index 57b931a..d4f9716 100644
+--- a/keyboards/nuphy/halo96_v2/ansi/ansi.c
++++ b/keyboards/nuphy/halo96_v2/ansi/ansi.c
+@@ -766,7 +766,7 @@ bool rgb_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max)
+         rgb_matrix_set_color(89, 0x00, 0x80, 0x00);
+     }
+ 
+-    return true;
++    return rgb_matrix_indicators_advanced_user(led_min, led_max);
+ }
+ /**
+    housekeeping_task_kb

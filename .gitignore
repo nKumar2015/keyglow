@@ -1,0 +1,8 @@
+__pycache__/
+.build/
+*.hex
+*.bin
+*.uf2
+qmk/
+backup-*.bin
+qmk-fork/
