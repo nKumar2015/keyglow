@@ -1,4 +1,4 @@
-# Copy to ~/.config/keyglow/config.toml
+# Copy to ~/.config/keyglow/config.toml, or set these through the home-manager module (see README).
 
 [device]
 vid = 0x19F5   # NuPhy Halo96 V2
