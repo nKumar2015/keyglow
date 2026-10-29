@@ -147,12 +147,29 @@
           example = "hyprland-session.target";
           description = "systemd user target the daemon starts with and stops with.";
         };
+
+        pushOnRebuild = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = ''
+            Restart the daemon at the end of every home-manager activation, so the keyboard
+            gets the rebuilt Hyprland binds and config.toml. Does nothing if it isn't running.
+          '';
+        };
       };
 
       config = lib.mkIf cfg.enable {
         home.packages = [cfg.package];
 
         xdg.configFile."keyglow/config.toml".source = configFile;
+
+        # Runs after onFilesChange (where home-manager reloads Hyprland's config) and
+        # reloadSystemd. Restarting rather than running `keyglow push` here keeps the daemon
+        # the only writer, so two pushes can't interleave on the keyboard.
+        home.activation.keyglowPush = lib.mkIf cfg.pushOnRebuild (lib.hm.dag.entryAfter ["onFilesChange" "reloadSystemd"] ''
+          run env XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}" \
+            ${pkgs.systemd}/bin/systemctl --user try-restart keyglow.service || true
+        '');
 
         systemd.user.services.keyglow = {
           Unit = {

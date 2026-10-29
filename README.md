@@ -73,6 +73,9 @@ inputs.keyglow.homeManagerModules.default
 }
 ```
 
+On every home-manager activation (each rebuild), the daemon is restarted after Hyprland has reloaded,
+so the keyboard gets the new binds and `config.toml`. Turn this off with `pushOnRebuild = false`.
+
 `hyprctl` isn't bundled because it has to match the running Hyprland. The service takes it from the user and system profiles.
 
 ## Host
