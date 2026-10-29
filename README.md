@@ -73,6 +73,13 @@ After flashing, the table is empty until the host pushes one. The daemon does th
 keyglow only touches LEDs that sit under a key. The halo ring (LEDs 99–143) keeps doing whatever NuPhy's
 effects are doing.
 
+### Debounce
+
+NuPhy ships 2 ms of `sym_eager_pk` debounce, which can turn switch bounce into repeated characters.
+The keyglow keymap uses `asym_eager_defer_pk` with 8 ms instead. Presses still register instantly, and a release
+only counts once the key has stayed up for 8 ms. Tune `DEBOUNCE` in `firmware/halo96_v2/config.h`; a larger
+value suppresses more bounce but slows down fast repeated taps of the same key.
+
 ### Other QMK boards
 
 The board needs `RGB_MATRIX_ENABLE = yes` (per-key RGB) and `RAW_ENABLE = yes`.
