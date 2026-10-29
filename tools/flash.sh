@@ -1,7 +1,7 @@
 #!/bin/sh
 # Back up the current firmware, then flash keyglow (or another .bin, e.g. a backup).
 # Run as root with the path to dfu-util:
-#   nix-shell -p dfu-util --run 'sudo tools/flash.sh "$(which dfu-util)" [firmware.bin]'
+#   nix develop -c sudo tools/flash.sh "$(which dfu-util)" [firmware.bin]
 set -e
 DFU=${1:-dfu-util}
 root=$(cd "$(dirname "$0")/.." && pwd)

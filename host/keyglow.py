@@ -87,6 +87,18 @@ def combo_name(mods, key):
     return "+".join([n for bit, n in MOD_NAMES if mods & bit] + [key.upper()])
 
 
+MOD_ALIASES = {"WIN": "SUPER", "META": "SUPER", "MOD4": "SUPER", "CONTROL": "CTRL"}
+
+
+def canonical_combo(text):
+    """'shift + super+q' -> 'SUPER+SHIFT+Q', so config combos can list mods in any order."""
+    *mods, key = [p.strip().upper() for p in text.split("+")]
+    mods = {MOD_ALIASES.get(m, m) for m in mods}
+    if unknown := mods - {n for _, n in MOD_NAMES}:
+        sys.exit(f"keyglow: unknown modifier {', '.join(sorted(unknown))} in {text!r}")
+    return "+".join([n for _, n in MOD_NAMES if n in mods] + [key])
+
+
 # --- Hyprland -------------------------------------------------------------
 
 def hypr_env():
@@ -117,9 +129,9 @@ def dispatcher_name(d):
 def build_table(binds, cfg):
     """Return [(mods, usage, (r,g,b), label)] for every Super bind on a physical key."""
     colors = cfg["colors"]
-    keys = {k.upper(): v for k, v in colors["keys"].items()}
+    keys = {canonical_combo(k): v for k, v in colors["keys"].items()}
     exclude_disp = set(cfg["filter"]["exclude_dispatchers"])
-    exclude_keys = [p.upper() for p in cfg["filter"]["exclude_keys"]]
+    exclude_keys = [canonical_combo(p) for p in cfg["filter"]["exclude_keys"]]
     table, seen, skipped = [], set(), []
     for b in binds:
         if b["mouse"] or b["key"].startswith("mouse") or b["submap"] or not b["modmask"] & 64:
